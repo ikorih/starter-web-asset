@@ -1,0 +1,71 @@
+//   #init
+//   基本となるスタイリング
+
+html {
+	font-size: math.div( 100, 375 ) * 10vw;
+	@include media_breakpoint_up(map-deep-get($breakpoint, pc)) {
+		font-size: math.div( 100, 1420 ) * 10vw;
+	}
+	// @include media_breakpoint_up(map-deep-get($breakpoint, artboard)) {
+	// 	font-size: 62.5%;
+	// }
+}
+
+body {
+	color: var(--#{$prefix}-color-text-base);
+	font-family: var(--#{$prefix}-font-family-sans_serif);
+	letter-spacing: var(--#{$prefix}-font-letter_spacing-base);
+	line-height: var(--#{$prefix}-font-line_height-base);
+	background-color: var(--#{$prefix}-color-bg-base);
+
+	-webkit-tap-highlight-color: transparent;
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+	font-feature-settings: "palt";
+
+	// フォントレンダリング設定 for Mac: 1x解像度ではsubpixel、2x以上の解像度ではgrayscale
+	-webkit-font-smoothing: subpixel-antialiased;
+	-moz-osx-font-smoothing: unset;
+	@media only screen and (-webkit-min-device-pixel-ratio: 2),
+		(min-resolution: 2dppx) {
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+	font-size: var(--#{$prefix}-font-size-base-sp);
+	@include media_breakpoint_up(map_deep_get($breakpoint, pc)) {
+		font-size: var(--#{$prefix}-font-size-base-pc);
+	}
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+	line-height: var(--#{$prefix}-font-line_height-heading);
+}
+
+p {
+	line-height: var(--#{$prefix}-font-line_height-p);
+	margin: 0 0 1em;
+}
+
+img {
+	max-width: 100%;
+}
+
+ul,
+ol {
+	margin: 0 0 3em;
+	padding: 0 0 0 2em;
+	li {
+		margin: 0 0 0.5em;
+	}
+}
+
+
+
+
+
+
+

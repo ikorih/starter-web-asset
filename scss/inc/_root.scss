@@ -1,0 +1,39 @@
+$prefix: 'my';
+
+$all-variables: (
+  breakpoint: $breakpoint,
+  color: $color,
+  font: $font,
+  transition: $transition,
+  easing: $easing,
+  path: $path,
+  layout: $layout,
+  header: $header,
+);
+
+
+// 再帰的なmixin
+@mixin create-custom-properties($map, $namespace: null) {
+  @each $key, $value in $map {
+    $new-namespace: if($namespace, $namespace + '-' + $key, $key);
+    @if type-of($value) == map {
+      @include create-custom-properties($value, $new-namespace);
+    } @else if type-of($value) == list {
+      $list-str: "";
+      @each $list-item in $value {
+        $list-str: $list-str + $list-item + ", ";
+      }
+      $list-str: str-slice($list-str, 1, str-length($list-str) - 2);  // 末尾の', 'を取り除く
+      --#{$prefix}-#{$new-namespace}: #{$list-str};
+    } @else {
+      --#{$prefix}-#{$new-namespace}: #{$value};
+    }
+  }
+}
+
+:root {
+	// 全ての変数を:rootでCSSカスタムプロパティとして一括で登録
+	@include create-custom-properties($all-variables);
+}
+
+

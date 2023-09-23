@@ -1,0 +1,78 @@
+.l-grid {
+  $this: &;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+
+  // サブ要素に対する共通のスタイル
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    @include grid-row-margin(map_deep_get($layout, gutter_width, sp));
+    @include media_breakpoint_up(map_deep_get($breakpoint, pc)) {
+      @include grid-row-margin(map_deep_get($layout, gutter_width, pc));
+    }
+  }
+
+  &__col {
+    width: 100%;
+    @include grid-col-padding(map_deep_get($layout, gutter_width, sp));
+    @include media_breakpoint_up(map_deep_get($breakpoint, pc)) {
+      @include grid-col-padding(map_deep_get($layout, gutter_width, pc));
+    }
+  }
+
+  // モディファイアに対するスタイル
+  &.-no-gap {
+    & > #{$this}__row {
+      margin: 0 !important;
+    }
+    & > #{$this}__row > #{$this}__col {
+      padding: 0 !important;
+    }
+  }
+
+  &.-pc-justify-between {
+    & > #{$this}__row {
+      @include media_breakpoint_up(map_deep_get($breakpoint, pc)) {
+        justify-content: space-between;
+      }
+    }
+  }
+
+  &.-ov-visible {
+    overflow: visible;
+  }
+
+  &.-gap-l, &.-v-gap-l {
+    & > #{$this}__row {
+      @include grid-row-margin(map_deep_get($layout, gutter_width, sp) * 2);
+      @include media_breakpoint_up(map_deep_get($breakpoint, pc)) {
+        @include grid-row-margin(map_deep_get($layout, gutter_width, pc));
+      }
+    }
+    & > #{$this}__row > #{$this}__col {
+      @include grid-col-padding(map_deep_get($layout, gutter_width, sp) * 2);
+      @include media_breakpoint_up(map_deep_get($breakpoint, pc)) {
+        @include grid-col-padding(map_deep_get($layout, gutter_width, pc));
+      }
+    }
+  }
+
+  &.-spacebetween {
+    & > #{$this}__row {
+      justify-content: space-between;
+    }
+  }
+
+  // grid sizes
+  &__col.-sp, &__col.-pc {
+    @for $i from 1 through 12 {
+      &-#{$i} {
+        max-width: percentage($i / 12);
+        flex-basis: percentage($i / 12);
+      }
+    }
+  }
+}
+

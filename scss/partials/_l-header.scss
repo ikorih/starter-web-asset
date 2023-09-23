@@ -1,0 +1,14 @@
+.l-header{
+	&__innr{
+		display: flex;
+	}
+	&__nav{
+		margin-left: auto;
+	}
+	&__logo{
+		width: var(--#{$prefix}-header-logo-width-sp);
+		@include media_breakpoint_up(map_deep_get($breakpoint, pc)) {
+			width: var(--#{$prefix}-header-logo-width-pc);
+		}
+	}
+}

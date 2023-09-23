@@ -1,0 +1,15 @@
+.l-container {
+	@include make-container(); // デフォルト値を使用
+	&.-s {
+		@include make-container($max-width: map_deep_get($layout, container_max_width_s));
+	}
+	&.-m {
+		@include make-container($max-width: map_deep_get($layout, container_max_width_m));
+	}
+	&.-l {
+		@include make-container($max-width: map_deep_get($layout, container_max_width_l));
+	}
+	&.-nopad {
+		@include make-container($padding-sp: 0, $padding-pc: 0);
+	}
+}

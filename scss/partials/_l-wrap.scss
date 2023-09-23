@@ -1,0 +1,18 @@
+.l-wrap {
+  @include vertical-margin(base, sp);
+
+  @include media_breakpoint_up(map_deep_get($breakpoint, tablet)) {
+    @include vertical-margin(base, pc);
+  }
+
+  // モディファイアに対するスタイル
+  @each $size in s, m, l {
+    &.-#{$size} {
+      @include vertical-margin($size, sp);
+
+      @include media_breakpoint_up(map_deep_get($breakpoint, tablet)) {
+        @include vertical-margin($size, pc);
+      }
+    }
+  }
+}

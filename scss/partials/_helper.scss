@@ -1,0 +1,41 @@
+// helper
+
+.-ib,
+.ib{
+	display: inline-block;
+	font: inherit;
+}
+
+.-no-mb,
+.no-mb{
+	margin-bottom: 0!important;
+}
+
+.-no-mt,
+.no-mt{
+	margin-top: 0!important;
+}
+
+.-no-pb,
+.no-pb{
+	padding-bottom: 0!important;
+}
+
+.-no-pt,
+.no-pt{
+	padding-top: 0!important;
+}
+
+.-hidden-sp {
+	@include media_breakpoint_down(map_deep_get($breakpoint, pc)) {
+		display: none;
+	}
+}
+
+.-hidden-pc {
+	@include media_breakpoint_up(map_deep_get($breakpoint, pc)) {
+		display: none;
+	}
+}
+
+

@@ -1,0 +1,6 @@
+.l-nav {
+	&__innr {
+		@include make-container(); // デフォルト値を使用
+	}
+}
+

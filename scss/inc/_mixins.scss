@@ -1,0 +1,146 @@
+
+// ---------------------------------------------------------
+// make-container
+//
+//
+// ---------------------------------------------------------
+@mixin make-container($padding-sp: map_deep_get($layout, side_margin, sp), $padding-pc: map_deep_get($layout, side_margin, pc), $max-width: map_deep_get($layout, container_max_width)) {
+  display: block;
+  padding: 0 $padding-sp;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+
+  @include media_breakpoint_up(map_deep_get($breakpoint, pc)) {
+    padding: 0 $padding-pc;
+    max-width: $max-width + ($padding-pc * 2);
+  }
+}
+
+@mixin image_fit($prop: cover){
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: $prop;
+	object-position: 50% 50%;
+	font-family: 'object-fit: #{$prop}; object-position: center;';
+}
+
+// ---------------------------------------------------------
+// media-breakpoint-up
+// media-breakpoint-down
+// メディアクエリを呼び出す
+//
+// ---------------------------------------------------------
+@mixin media_breakpoint_up($breakpoint) {
+	@media (min-width: #{$breakpoint}) {
+		@content;
+	}
+}
+@mixin media_breakpoint_down($breakpoint) {
+	@media (max-width: #{$breakpoint - 1px}) {
+		@content;
+	}
+}
+
+
+// ---------------------------------------------------------
+// lhTopCrop
+// テキスト上部の余白を取り除く
+//
+// Required arguments:
+// `$line-height` line-height
+//
+// Example of use:
+// lhTopCrop(1.8)
+//
+// @returen ネガティブマージンを持った擬似要素
+// ---------------------------------------------------------
+@mixin lhTopCrop($line-height, $capital-letter: 1) {
+  &::before {
+    content: '';
+    display: block;
+    height: 0;
+    width: 0;
+    margin-top: calc((#{$capital-letter} - #{$line-height}) * 0.5em);
+  }
+}
+
+
+// ---------------------------------------------------------
+// lhBottomCrop
+// テキスト下部の余白を取り除く
+//
+// Required arguments:
+// `$line-height` line-height
+//
+// Example of use:
+// lhBottomCrop(1.8)
+//
+// @returen ネガティブマージンを持った擬似要素
+// ---------------------------------------------------------
+@mixin lhBottomCrop($line-height, $capital-letter: 1) {
+  &::after {
+    content: '';
+    display: block;
+    height: 0;
+    width: 0;
+    margin-bottom: calc((#{$capital-letter} - #{$line-height}) * 0.5em);
+  }
+}
+
+
+// ---------------------------------------------------------
+// hoverLineAnimation
+// ホバーで下線アニメーション
+//
+// ---------------------------------------------------------
+@mixin hoverLineAnimation() {
+	text-decoration: none;
+	background-image: linear-gradient(currentColor, currentColor);
+	background-position: 0% 100%;
+	background-repeat: no-repeat;
+	background-size: 0% 1px;
+	transition: background-size 0.5s;
+	background-position: right bottom;
+	&:hover  {
+		background-size: 100% 1px;
+		background-position: left bottom;
+	}
+}
+
+
+
+// ---------------------------------------------------------
+// grid-row-margin
+// grid-col-padding
+//
+// これらはmake-container()で使用する
+//
+// ---------------------------------------------------------
+
+@mixin grid-row-margin($gutter-width) {
+  margin: 0 (-1 * math.div($gutter-width, 2));
+}
+
+@mixin grid-col-padding($gutter-width) {
+  padding: 0 (math.div($gutter-width, 2)) $gutter-width;
+}
+
+
+// ---------------------------------------------------------
+// vertical-margin
+//
+// これらは上下のmarginを設定する際に使用する
+//
+// ---------------------------------------------------------
+
+
+@mixin vertical-margin($size, $device) {
+  margin: map_deep_get($layout, spacing, vertical, $size, $device) 0;
+}
+
+

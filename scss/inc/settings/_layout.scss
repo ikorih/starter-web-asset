@@ -1,0 +1,43 @@
+// layout
+$layout: (
+	z_index: (
+		header: 10,
+		navigation: 9,
+		content: 5,
+		footer: 1
+	),
+	side_margin: (
+		sp: 3rem,
+		pc: 3rem
+	),
+	gutter_width: (
+		sp: 3rem,
+		pc: 3rem
+	),
+	container_max_width_s: 60rem,
+	container_max_width_sm: 70rem,
+	container_max_width_m: 86rem,
+	container_max_width_l: 118rem,
+	container_max_width: 96rem,
+	spacing: (
+		vertical: (
+			small: (
+				sp: 3rem,
+				pc: 4rem
+			),
+			medium: (
+				sp: 4rem,
+				pc: 5rem
+			),
+			base: (
+				sp: 8rem,
+				pc: 10rem
+			),
+			large: (
+				sp: 6rem,
+				pc: 10rem
+			),
+		)
+	)
+);
+
