@@ -6,8 +6,8 @@
   }
 
   // モディファイアに対するスタイル
-  @each $size in s, m, l {
-    &.-#{$size} {
+  @each $size, $alias in (small: 's', medium: 'm', large: 'l') {
+    &.-#{$alias} {
       @include vertical-margin($size, sp);
 
       @include media_breakpoint_up(map_deep_get($breakpoint, tablet)) {
