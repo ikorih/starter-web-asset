@@ -1,60 +1,79 @@
-'use strict';
+"use strict";
 
-/*
-タッチデバイスで指が触れた時に .touched がつく
-またタッチデバイスかどうかの判別でbodyタグに .touch-is-active と .mouse-is-active のどちらかをつける
-*/
+/**
+ * TouchDetect Class
+ * This class detects touch interactions on specified elements and updates the body class
+ * to indicate whether the device is being used with touch or mouse input.
+ * It also adds a 'touched' class to elements when touched.
+ *
+ * Options:
+ * - selector: Selector for the elements to detect touch interactions (default: 'a').
+ *
+ * Methods:
+ * - destroy: Removes event listeners and cleans up the instance.
+ *
+ * Example usage:
+ * const touchDetect = new TouchDetect('button');
+ */
 
 export default class TouchDetect {
-  constructor(selector) {
+  constructor(selector = "a") {
     this.selector = selector;
-    this.els = typeof this.selector === 'undefined' ? document.querySelectorAll('a') : document.querySelectorAll(this.selector);
-    this._set();
+    this.els = document.querySelectorAll(this.selector);
+    this._init();
   }
-  _set(){
-    this.els.forEach(el => {
 
-      el.addEventListener('touchstart',this._touched.bind(el), false);
-      el.addEventListener('touchend',this._touchRemoved.bind(el), false);
+  _init() {
+    this.touchStartHandler = this._touched.bind(this);
+    this.touchEndHandler = this._touchRemoved.bind(this);
+    this.mouseMoveHandler = this._onMouseMove.bind(this);
+    this.touchStartDocHandler = this._onTouchStart.bind(this);
 
+    this.els.forEach((el) => {
+      el.addEventListener("touchstart", this.touchStartHandler);
+      el.addEventListener("touchend", this.touchEndHandler);
     });
 
-    document.addEventListener('mousemove', onMouseMove, true);
-    document.addEventListener('touchstart', onTouchStart, true);
-
-    function onTouchStart() {
-      removeListeners();
-      document.body.classList.add('touch-is-active');
-      document.body.classList.remove('mouse-is-active');
-    }
-
-    function onMouseMove() {
-      removeListeners();
-      document.body.classList.remove('touch-is-active');
-      document.body.classList.add('mouse-is-active');
-    }
-
-    function removeListeners() {
-      document.removeEventListener('mousemove', onMouseMove, true);
-      document.removeEventListener('touchstart', onTouchStart, true);
-    }
-
+    document.addEventListener("mousemove", this.mouseMoveHandler);
+    document.addEventListener("touchstart", this.touchStartDocHandler);
   }
-  _touched(){
-    this.classList.add('touched');
+
+  _touched(event) {
+    event.currentTarget.classList.add("touched");
   }
-  _touchRemoved(){
-    this.classList.remove('touched');
+
+  _touchRemoved(event) {
+    event.currentTarget.classList.remove("touched");
   }
-  reset(){
-    // TODO
+
+  _onTouchStart() {
+    this._removeDocumentListeners();
+    document.body.classList.add("touch-is-active");
+    document.body.classList.remove("mouse-is-active");
+
+    // 再度リスナーを追加して、両方のデバイスの入力を考慮する
+    document.addEventListener("mousemove", this.mouseMoveHandler);
   }
-  removeEvent(){
-    this.els.forEach(el => {
-      el.addEventListener('touchstart',this._touched, false);
-      el.addEventListener('touchend',this._touchRemoved, false);
+
+  _onMouseMove() {
+    this._removeDocumentListeners();
+    document.body.classList.remove("touch-is-active");
+    document.body.classList.add("mouse-is-active");
+
+    // 再度リスナーを追加して、両方のデバイスの入力を考慮する
+    document.addEventListener("touchstart", this.touchStartDocHandler);
+  }
+
+  _removeDocumentListeners() {
+    document.removeEventListener("mousemove", this.mouseMoveHandler);
+    document.removeEventListener("touchstart", this.touchStartDocHandler);
+  }
+
+  destroy() {
+    this.els.forEach((el) => {
+      el.removeEventListener("touchstart", this.touchStartHandler);
+      el.removeEventListener("touchend", this.touchEndHandler);
     });
-
+    this._removeDocumentListeners();
   }
 }
-
