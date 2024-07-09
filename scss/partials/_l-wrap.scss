@@ -1,16 +1,16 @@
 .l-wrap {
   @include vertical-margin(base, sp);
 
-  @include media_breakpoint_up(map_deep_get($breakpoint, tablet)) {
+  @include media_breakpoint_up(map_deep_get($breakpoint, pc)) {
     @include vertical-margin(base, pc);
   }
 
   // モディファイアに対するスタイル
-  @each $size, $alias in (small: 's', medium: 'm', large: 'l') {
+  @each $size, $alias in (small: "s", medium: "m", large: "l") {
     &.-#{$alias} {
       @include vertical-margin($size, sp);
 
-      @include media_breakpoint_up(map_deep_get($breakpoint, tablet)) {
+      @include media_breakpoint_up(map_deep_get($breakpoint, pc)) {
         @include vertical-margin($size, pc);
       }
     }
